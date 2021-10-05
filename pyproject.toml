@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "kit-api"
+version = "0.1.0"
+description = "An api dedicated to kits."
+authors = ["Jonxslays"]
+license = "BSD-3-Clause"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+fastapi = "^0.68.1"
+uvicorn = "^0.15.0"
+
+[tool.poetry.dev-dependencies]
+mypy = "^0.910"
+pyright = "^0.0.10"
+
+[tool.black]
+line-length = 99
+
+[tool.pyright]
+include = ["kitapi"]
+typeCheckingMode = "strict"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
