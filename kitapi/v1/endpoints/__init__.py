@@ -1,8 +1,7 @@
 import typing
 
-from . import breed
-from . import fact
+from .fact import FactRouter
 
 __all__: typing.List[str] = [
-    "breed", "fact",
+    "breed", "FactRouter",
 ]

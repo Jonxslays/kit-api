@@ -1,7 +1,7 @@
 import typing
 
-from .endpoints import breed, fact
+from . import api
 
 __all__: typing.List[str] = [
-    "breed", "fact",
+     "api",
 ]
