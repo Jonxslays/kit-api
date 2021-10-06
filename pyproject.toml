@@ -13,6 +13,7 @@ uvicorn = "^0.15.0"
 [tool.poetry.dev-dependencies]
 mypy = "^0.910"
 pyright = "^0.0.10"
+isort = "^5.9.3"
 
 [tool.black]
 line-length = 99
