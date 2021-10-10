@@ -16,9 +16,11 @@ __description__: str = "An api dedicated to kits."
 __license__: str = "BSD-3-Clause"
 __maintainer__: str = "Jonxslays"
 __url__: str = "https://github.com/Jonxslays/kit-api"
-__appdata__: dict[str, typing.Optional[str]] = {
+__appdata__: dict[str, typing.Any] = {
     "title": "Kit API",
     "description": "An api dedicated to kits.",
     "version": __version__,
     "redoc_url": None,
+    "contact": {"admin": "admin@kit-api.com"},
+    "openapi": None,
 }

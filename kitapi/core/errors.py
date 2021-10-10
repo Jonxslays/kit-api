@@ -3,6 +3,7 @@ __all__: list[str] = [
     "MissingMasterKey",
 ]
 
+
 class KitapiError(Exception):
     ...
 
