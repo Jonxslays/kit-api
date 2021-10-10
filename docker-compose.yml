@@ -1,0 +1,49 @@
+services:
+
+  # proxy:
+  #   image: traefik:v2.5.3
+  #   restart: always
+  #   ports:
+  #     - 80:80
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  db:
+    container_name: postgres
+    image: postgres:13.4-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASS
+      POSTGRES_DB: $DB_NAME
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+        PGADMIN_DEFAULT_EMAIL: $PGADMIN_EMAIL
+        PGADMIN_DEFAULT_PASSWORD: $PGADMIN_PASS
+        PGADMIN_LISTEN_PORT: 5050
+    ports:
+      - 5050:5050
+    depends_on:
+      - db
+
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bash -c "uvicorn kitapi.main:app --host 0.0.0.0 --port 80"
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:

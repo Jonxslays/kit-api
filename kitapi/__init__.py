@@ -10,7 +10,7 @@ __all__: list[str] = [
     "__appdata__",
 ]
 
-__version__: str = "0.1.0"
+__version__: str = "0.2.0"
 __author__: str = "Jonxslays"
 __description__: str = "An api dedicated to kits."
 __license__: str = "BSD-3-Clause"
@@ -22,5 +22,4 @@ __appdata__: dict[str, typing.Any] = {
     "version": __version__,
     "redoc_url": None,
     "contact": {"admin": "admin@kit-api.com"},
-    "openapi": None,
 }

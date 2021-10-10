@@ -1,0 +1,6 @@
+.mypy_cache
+.venv
+.vscode
+*.pyc
+__pycache__
+LICENSE
