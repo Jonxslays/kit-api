@@ -13,8 +13,13 @@ FactRouter = APIRouter()
 
 
 @FactRouter.get(
-    "/fact", summary="Get random fact.", responses={200: {"description": "A random fact."}}
+    "/fact",
+    summary="Get random fact.",
+    responses={
+        200: {"description": "A random fact."},
+    }
 )
+@utils.handle_db_conn_exc
 @utils.with_request_update
 async def get_a_random_fact() -> Fact:
     """Gets a random fact."""

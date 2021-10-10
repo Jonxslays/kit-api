@@ -9,7 +9,12 @@ from kitapi import core
 
 async def get_fact_total() -> int:
     """Gets the total number of facts in the database."""
-    return await core.models.Facts.all().count()
+    data =  await core.models.Facts.all().order_by("-id").limit(1).first()
+
+    if not data:
+        raise core.DatabaseConnectionError("Failed to query the database.")
+
+    return data.id
 
 
 @functools.lru_cache
@@ -52,5 +57,25 @@ def with_request_update(func: t.Any) -> t.Callable[..., t.Any]:
 
         await obj.save()
         return await func(*args, **kwargs)
+
+    return predicate
+
+
+def handle_db_conn_exc(func: t.Any) -> t.Callable[..., t.Any]:
+    """Handles database connection errors."""
+
+    @functools.wraps(func)
+    async def predicate(*args: t.Any, **kwargs: t.Any) -> t.Any:
+        try:
+            result = await func(*args, **kwargs)
+        except core.DatabaseConnectionError:
+            raise HTTPException(
+                status_code=418,
+                detail={
+                    "error": "The server is refusing to be a coffee pot.",
+                }
+            )
+
+        return result
 
     return predicate
