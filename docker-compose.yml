@@ -1,15 +1,7 @@
 services:
 
-  # proxy:
-  #   image: traefik:v2.5.3
-  #   restart: always
-  #   ports:
-  #     - 80:80
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock:ro
-
   db:
-    container_name: postgres
+    container_name: db
     image: postgres:13.4-alpine
     restart: always
     environment:
@@ -18,32 +10,53 @@ services:
       POSTGRES_DB: $DB_NAME
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
+    expose:
+      - 5432
+    networks:
+      - private
 
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
+    restart: always
     environment:
-        PGADMIN_DEFAULT_EMAIL: $PGADMIN_EMAIL
-        PGADMIN_DEFAULT_PASSWORD: $PGADMIN_PASS
-        PGADMIN_LISTEN_PORT: 5050
-    ports:
-      - 5050:5050
+      PGADMIN_DEFAULT_EMAIL: $PGADMIN_EMAIL
+      PGADMIN_DEFAULT_PASSWORD: $PGADMIN_PASS
+      PGADMIN_LISTEN_PORT: 5050
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.pgadmin.loadbalancer.server.port=5050
+      - traefik.http.routers.pgadmin-http.entrypoints=http
+      - traefik.http.routers.pgadmin-http.rule=Host(`server.kit-api.com`)
+      - traefik.docker.network=public
+    networks:
+      - public
+      - private
     depends_on:
       - db
 
-  api:
-    container_name: api
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: bash -c "uvicorn kitapi.main:app --host 0.0.0.0 --port 80"
+  app:
+    container_name: app
     restart: always
-    ports:
-      - 80:80
+    build: .
+    command: bash -c "uvicorn kitapi.main:app --host 0.0.0.0 --port 80"
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.app.loadbalancer.server.port=80
+      - traefik.http.routers.app-http.entrypoints=http
+      - traefik.http.routers.app-http.rule=Host(`kit-api.com`)
+      - traefik.docker.network=public
+    networks:
+      - public
+      - private
     depends_on:
       - db
+
+networks:
+  public:
+    external: true
+  private:
+    external: false
 
 volumes:
   postgres_data:

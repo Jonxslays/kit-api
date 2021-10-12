@@ -1,0 +1,25 @@
+services:
+
+  db:
+    networks:
+      - public
+
+  pgadmin:
+    ports:
+      - 5050:5050
+    networks:
+      - public
+    depends_on:
+      - db
+
+  app:
+    ports:
+      - 8000:80
+    networks:
+      - public
+    depends_on:
+      - db
+
+networks:
+  public:
+    external: false

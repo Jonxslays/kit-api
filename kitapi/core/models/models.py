@@ -11,7 +11,7 @@ __all__: list[str] = [
 
 
 class Facts(models.Model):
-    """Database model for a kit fact."""
+    """Database model for a fact."""
 
     id: int = fields.IntField(pk=True)
     fact: str = fields.TextField()
