@@ -31,6 +31,6 @@ __appdata__: dict[str, typing.Any] = {
         {
             "name": "System",
             "description": "System related endpoints.",
-        }
+        },
     ],
 }

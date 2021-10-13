@@ -17,8 +17,11 @@ FactRouter = APIRouter()
     summary="Get random fact.",
     tags=["Facts"],
     responses={
-        200: {"description": "A random fact."},
-    }
+        200: {
+            "description": "A random fact.",
+            "model": Fact,
+        },
+    },
 )
 @utils.handle_db_conn_exc
 @utils.with_request_update
@@ -36,7 +39,10 @@ async def get_a_random_fact() -> Fact:
     summary="Get fact by ID.",
     tags=["Facts"],
     responses={
-        200: {"description": "The requested fact."},
+        200: {
+            "description": "The requested fact.",
+            "model": Fact,
+        },
         404: {"description": "Not found."},
     },
 )
@@ -54,7 +60,10 @@ async def get_a_fact_by_id(id: int) -> Fact:
     summary="Update fact by ID.",
     tags=["Facts"],
     responses={
-        200: {"description": "The updated fact."},
+        200: {
+            "description": "The updated fact.",
+            "model": Fact,
+        },
         400: {"description": "Bad request."},
         404: {"description": "Not found."},
     },
@@ -73,7 +82,7 @@ async def update_a_fact(id: int, fact: FactIn, x_api_key: t.Any = Header(None)) 
             detail={
                 "error": "Bad request",
                 "message": "Fact must be 13 chars in length and of type `str`.",
-            }
+            },
         )
 
     obj.fact = f
@@ -85,9 +94,11 @@ async def update_a_fact(id: int, fact: FactIn, x_api_key: t.Any = Header(None)) 
     "/fact/{id}",
     summary="Delete a fact.",
     tags=["Facts"],
-    status_code=200,
     responses={
-        200: {"description": "The deleted fact."},
+        200: {
+            "description": "The deleted fact.",
+            "model": Fact,
+        },
         403: {"description": "Forbidden."},
         404: {"description": "Not found."},
     },
@@ -95,7 +106,7 @@ async def update_a_fact(id: int, fact: FactIn, x_api_key: t.Any = Header(None)) 
 @utils.require_master_key
 @utils.with_request_update
 async def delete_a_fact(id: int, x_api_key: t.Any = Header(None)) -> Fact:
-    """Deletes a fact from the database."""
+    """Deletes a fact by ID."""
     obj = removed = await Facts.get(id=id)
     await obj.delete()
     await obj.save()
@@ -108,7 +119,10 @@ async def delete_a_fact(id: int, x_api_key: t.Any = Header(None)) -> Fact:
     tags=["Facts"],
     status_code=201,
     responses={
-        201: {"description": "The created fact."},
+        201: {
+            "description": "The created fact.",
+            "model": Fact,
+        },
         403: {"description": "Forbidden."},
     },
 )
