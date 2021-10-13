@@ -15,33 +15,6 @@ services:
     networks:
       - private
 
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: $PGADMIN_EMAIL
-      PGADMIN_DEFAULT_PASSWORD: $PGADMIN_PASS
-      PGADMIN_LISTEN_PORT: 5050
-    labels:
-      - traefik.enable=true
-      - traefik.http.services.pgadmin.loadbalancer.server.port=5050
-      - traefik.http.routers.pgadmin-http.entrypoints=http
-      - traefik.http.routers.pgadmin-http.rule=Host(`server.kit-api.com`) || Host(`www.server.kit-api.com`)
-      - traefik.docker.network=public
-      - traefik.http.routers.pgadmin-https.entrypoints=https
-      - traefik.http.routers.pgadmin-https.rule=Host(`server.kit-api.com`) || Host(`www.server.kit-api.com`)
-      - traefik.http.routers.pgadmin-https.tls=true
-      - traefik.http.routers.pgadmin-https.tls.certresolver=le
-      - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
-      - traefik.http.middlewares.https-redirect.redirectscheme.permanent=true
-      - traefik.http.routers.pgadmin-http.middlewares=https-redirect
-    networks:
-      - public
-      - private
-    depends_on:
-      - db
-
   app:
     container_name: app
     restart: always
@@ -51,15 +24,20 @@ services:
       - traefik.enable=true
       - traefik.http.services.app.loadbalancer.server.port=80
       - traefik.http.routers.app-http.entrypoints=http
-      - traefik.http.routers.app-http.rule=Host(`kit-api.com`) || Host(`www.kit-api.com`)
+      - traefik.http.routers.app-http.rule=HostRegexp(`kit-api.com`, `{[\w\d-]+}.kit-api.com`)
       - traefik.docker.network=public
       - traefik.http.routers.app-https.entrypoints=https
-      - traefik.http.routers.app-https.rule=Host(`kit-api.com`) || Host(`www.kit-api.com`)
+      - traefik.http.routers.app-https.rule=HostRegexp(`kit-api.com`, `{[\w\d-]+}.kit-api.com`)
       - traefik.http.routers.app-https.tls=true
       - traefik.http.routers.app-https.tls.certresolver=le
       - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
       - traefik.http.middlewares.https-redirect.redirectscheme.permanent=true
-      - traefik.http.routers.app-http.middlewares=https-redirect
+      - traefik.http.middlewares.ratelimit.ratelimit.average=200
+      - traefik.http.middlewares.ratelimit.ratelimit.burst=10
+      - traefik.http.middlewares.ratelimit.ratelimit.period=1m
+      - traefik.http.middlewares.ratelimit.ratelimit.sourcecriterion.ipstrategy.depth=2
+      - traefik.http.routers.app-http.middlewares=https-redirect,ratelimit
+      - traefik.http.routers.app-https.middlewares=ratelimit
     networks:
       - public
       - private
