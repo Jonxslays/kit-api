@@ -1,7 +1,7 @@
 import random
 import typing as t
 
-from fastapi import APIRouter, Header
+from fastapi import APIRouter, Header, HTTPException
 
 from kitapi.v1 import utils
 from kitapi.core.models import *
@@ -15,6 +15,7 @@ FactRouter = APIRouter()
 @FactRouter.get(
     "/fact",
     summary="Get random fact.",
+    tags=["Facts"],
     responses={
         200: {"description": "A random fact."},
     }
@@ -33,9 +34,10 @@ async def get_a_random_fact() -> Fact:
 @FactRouter.get(
     "/fact/{id}",
     summary="Get fact by ID.",
+    tags=["Facts"],
     responses={
         200: {"description": "The requested fact."},
-        404: {"description": "Not Found."},
+        404: {"description": "Not found."},
     },
 )
 @utils.with_request_update
@@ -47,9 +49,42 @@ async def get_a_fact_by_id(id: int) -> Fact:
     return await Fact.from_tortoise_orm(obj)
 
 
+@FactRouter.patch(
+    "/fact/{id}",
+    summary="Update fact by ID.",
+    tags=["Facts"],
+    responses={
+        200: {"description": "The updated fact."},
+        400: {"description": "Bad request."},
+        404: {"description": "Not found."},
+    },
+)
+@utils.require_master_key
+@utils.with_request_update
+async def update_a_fact(id: int, fact: FactIn, x_api_key: t.Any = Header(None),) -> Fact:
+    """Updates a fact by ID."""
+    obj = await Facts.get(id=id)
+    f = fact.dict().get("fact")
+
+    if not isinstance(f, str) or len(f) < 13:
+        # I have arbitrarily chosen 13 characters as the minumum length fact...
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "error": "Bad request",
+                "message": "Fact must be 13 chars in length and of type `str`.",
+            }
+        )
+
+    obj.fact = f
+    await obj.save()
+    return await Fact.from_tortoise_orm(obj)
+
+
 @FactRouter.post(
     "/fact",
     summary="Create a fact.",
+    tags=["Facts"],
     status_code=201,
     responses={
         201: {"description": "The created fact."},
@@ -58,12 +93,23 @@ async def get_a_fact_by_id(id: int) -> Fact:
 )
 @utils.require_master_key
 @utils.with_request_update
-async def create_a_fact(
-    fact: FactIn,
-    x_api_key: t.Any = Header(None),
-) -> Fact:
+async def create_a_fact(fact: FactIn, x_api_key: t.Any = Header(None),) -> Fact:
     """Creates a new fact.
     * Requires the master api key.
     """
     obj = await Facts.create(**fact.dict())
     return await Fact.from_tortoise_orm(obj)
+
+
+@FactRouter.get(
+    "/system/requests",
+    summary="Get total request count.",
+    tags=["System"],
+    responses={
+        200: {"description": "The requested amount."},
+    },
+)
+@utils.with_request_update
+async def get_total_requests() -> int:
+    """Fetches the total number of requests handled by v1 to date."""
+    return await utils.get_request_total()

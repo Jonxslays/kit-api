@@ -17,6 +17,16 @@ async def get_fact_total() -> int:
     return data.id
 
 
+async def get_request_total() -> int:
+    """Gets the total number of requests made to v1."""
+    data = await core.models.Systems.get(version=1)
+
+    if not data:
+        raise core.DatabaseConnectionError("Failed to query the database.")
+
+    return data.total_requests
+
+
 @functools.lru_cache
 def get_master_key() -> str:
     """Gets the V1 master key from the environment."""
@@ -35,7 +45,7 @@ def require_master_key(func: t.Any) -> t.Callable[..., t.Any]:
     async def predicate(x_api_key: str, *args: t.Any, **kwargs: t.Any) -> t.Any:
         if x_api_key != get_master_key():
             raise HTTPException(
-                status_code=403, detail={"Error": "Forbidden", "Message": "Invalid API key."}
+                status_code=403, detail={"error": "Forbidden", "message": "Invalid API key."}
             )
 
         return await func(*args, **kwargs)
