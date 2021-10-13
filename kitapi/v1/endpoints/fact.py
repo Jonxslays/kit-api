@@ -61,7 +61,7 @@ async def get_a_fact_by_id(id: int) -> Fact:
 )
 @utils.require_master_key
 @utils.with_request_update
-async def update_a_fact(id: int, fact: FactIn, x_api_key: t.Any = Header(None),) -> Fact:
+async def update_a_fact(id: int, fact: FactIn, x_api_key: t.Any = Header(None)) -> Fact:
     """Updates a fact by ID."""
     obj = await Facts.get(id=id)
     f = fact.dict().get("fact")
@@ -81,6 +81,27 @@ async def update_a_fact(id: int, fact: FactIn, x_api_key: t.Any = Header(None),)
     return await Fact.from_tortoise_orm(obj)
 
 
+@FactRouter.delete(
+    "/fact/{id}",
+    summary="Delete a fact.",
+    tags=["Facts"],
+    status_code=200,
+    responses={
+        200: {"description": "The deleted fact."},
+        403: {"description": "Forbidden."},
+        404: {"description": "Not found."},
+    },
+)
+@utils.require_master_key
+@utils.with_request_update
+async def delete_a_fact(id: int, x_api_key: t.Any = Header(None)) -> Fact:
+    """Deletes a fact from the database."""
+    obj = removed = await Facts.get(id=id)
+    await obj.delete()
+    await obj.save()
+    return await Fact.from_tortoise_orm(removed)
+
+
 @FactRouter.post(
     "/fact",
     summary="Create a fact.",
@@ -93,7 +114,7 @@ async def update_a_fact(id: int, fact: FactIn, x_api_key: t.Any = Header(None),)
 )
 @utils.require_master_key
 @utils.with_request_update
-async def create_a_fact(fact: FactIn, x_api_key: t.Any = Header(None),) -> Fact:
+async def create_a_fact(fact: FactIn, x_api_key: t.Any = Header(None)) -> Fact:
     """Creates a new fact.
     * Requires the master api key.
     """
