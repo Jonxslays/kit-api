@@ -13,7 +13,7 @@ FactRouter = APIRouter()
 
 @FactRouter.get(
     "/fact",
-    summary="Get random fact.",
+    summary="Get a random fact.",
     tags=["Facts"],
     responses={
         200: {
@@ -25,7 +25,7 @@ FactRouter = APIRouter()
 @utils.handle_db_conn_exc
 @utils.with_request_update
 async def get_a_random_fact() -> Fact:
-    """Gets a random fact."""
+    """Gets a random fact, you feelin lucky?"""
     obj = await utils.get_random_fact()
     obj.uses += 1
     await obj.save()
@@ -34,7 +34,7 @@ async def get_a_random_fact() -> Fact:
 
 @FactRouter.get(
     "/fact/{id}",
-    summary="Get fact by ID.",
+    summary="Get a fact.",
     tags=["Facts"],
     responses={
         200: {
@@ -46,7 +46,7 @@ async def get_a_random_fact() -> Fact:
 )
 @utils.with_request_update
 async def get_a_fact_by_id(id: int) -> Fact:
-    """Gets a fact by ID."""
+    """Gets a fact by it's ID."""
     obj = await Facts.get(id=id)
     obj.uses += 1
     await obj.save()
@@ -55,7 +55,7 @@ async def get_a_fact_by_id(id: int) -> Fact:
 
 @FactRouter.patch(
     "/fact/{id}",
-    summary="Update fact by ID.",
+    summary="Update a fact.",
     tags=["Facts"],
     responses={
         200: {
@@ -69,7 +69,9 @@ async def get_a_fact_by_id(id: int) -> Fact:
 @utils.require_master_key
 @utils.with_request_update
 async def update_a_fact(id: int, fact: FactIn, x_api_key: t.Any = Header(None)) -> Fact:
-    """Updates a fact by ID."""
+    """Updates a fact by it's ID.
+    * Requires the master api key.
+    """
     obj = await Facts.get(id=id)
     f = fact.dict().get("fact")
 
@@ -104,7 +106,9 @@ async def update_a_fact(id: int, fact: FactIn, x_api_key: t.Any = Header(None)) 
 @utils.require_master_key
 @utils.with_request_update
 async def delete_a_fact(id: int, x_api_key: t.Any = Header(None)) -> Fact:
-    """Deletes a fact by ID."""
+    """Deletes a fact by it's ID.
+    * Requires the master api key.
+    """
     obj = removed = await Facts.get(id=id)
     await obj.delete()
     await obj.save()
@@ -112,7 +116,7 @@ async def delete_a_fact(id: int, x_api_key: t.Any = Header(None)) -> Fact:
 
 
 @FactRouter.post(
-    "/fact",
+    "/fact/create",
     summary="Create a fact.",
     tags=["Facts"],
     status_code=201,
@@ -132,6 +136,56 @@ async def create_a_fact(fact: FactIn, x_api_key: t.Any = Header(None)) -> Fact:
     """
     obj = await Facts.create(**fact.dict())
     return await Fact.from_tortoise_orm(obj)
+
+
+@FactRouter.post(
+    "/fact/create/bulk",
+    summary="Bulk create facts.",
+    tags=["Facts"],
+    status_code=201,
+    responses={
+        201: {
+            "description": "The created facts.",
+            "model": ManyFact,
+        },
+        400: {"description": "Bad request."},
+        403: {"description": "Forbidden."},
+    },
+)
+@utils.require_master_key
+@utils.with_request_update
+async def bulk_create_a_fact(
+    facts: ManyFactIn,
+    x_api_key: t.Any = Header(None)
+) -> ManyFact:
+    """Bulk creates new facts.
+
+        Accepts json data with:
+            - key: 'facts'
+            - value: A list of dictionaries.
+
+        These dictionaries should each have:
+            - key: 'fact'
+            - value: (str) The actual fact
+
+    ex:
+        `{
+            'facts': [
+                {'fact': 'Cats are awesome.'},
+                {'fact': 'Cats are cute.'}
+            ]
+        }`
+
+    * Requires the master api key.
+    """
+
+    results: list[Fact] = []
+
+    for fact in facts.facts:
+        obj = await Facts.create(**fact.dict())
+        results.append(await Fact.from_tortoise_orm(obj))
+
+    return ManyFact(facts=results)
 
 
 @FactRouter.get(

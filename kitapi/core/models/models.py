@@ -1,10 +1,14 @@
+from pydantic import BaseModel
 from tortoise import fields, models
 from tortoise.contrib.pydantic.creator import pydantic_model_creator
+
 
 __all__: list[str] = [
     "Fact",
     "Facts",
     "FactIn",
+    "ManyFact",
+    "ManyFactIn",
     "System",
     "Systems",
 ]
@@ -35,3 +39,13 @@ Fact = pydantic_model_creator(Facts, name="Fact")
 FactIn = pydantic_model_creator(Facts, name="FactIn", exclude=("uses",), exclude_readonly=True)
 
 System = pydantic_model_creator(Systems, name="System")
+
+
+class ManyFact(BaseModel):
+    """Represents bulk fact output."""
+    facts: list[Fact]
+
+
+class ManyFactIn(BaseModel):
+    """Represents bulk fact input."""
+    facts: list[FactIn]
