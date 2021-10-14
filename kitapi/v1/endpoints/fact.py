@@ -1,10 +1,9 @@
-import random
 import typing as t
 
 from fastapi import APIRouter, Header, HTTPException
 
-from kitapi.v1 import utils
 from kitapi.core.models import *
+from kitapi.v1 import utils
 
 __all__: list[str] = ["FactRouter"]
 
@@ -27,8 +26,7 @@ FactRouter = APIRouter()
 @utils.with_request_update
 async def get_a_random_fact() -> Fact:
     """Gets a random fact."""
-    id = random.randint(1, await utils.get_fact_total())
-    obj = await Facts.get(id=id)
+    obj = await utils.get_random_fact()
     obj.uses += 1
     await obj.save()
     return await Fact.from_tortoise_orm(obj)

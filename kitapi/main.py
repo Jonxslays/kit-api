@@ -1,9 +1,8 @@
 import uvloop
 from tortoise.contrib.fastapi import register_tortoise
 
-from kitapi.v1 import api
 from kitapi.core import settings
-
+from kitapi.v1 import api
 
 uvloop.install()
 

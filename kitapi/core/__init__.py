@@ -1,6 +1,4 @@
-from . import errors
-from . import models
-from . import settings
+from . import errors, models, settings
 from .errors import *
 
 __all__: list[str] = ["models", "settings"]

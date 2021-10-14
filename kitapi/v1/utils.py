@@ -1,5 +1,6 @@
 import functools
 import os
+import random
 import typing as t
 
 from fastapi.exceptions import HTTPException
@@ -7,14 +8,15 @@ from fastapi.exceptions import HTTPException
 from kitapi import core
 
 
-async def get_fact_total() -> int:
+async def get_random_fact() -> core.models.Facts:
     """Gets the total number of facts in the database."""
-    data = await core.models.Facts.all().order_by("-id").limit(1).first()
+    count = await core.models.Facts.all().count()
+    data = (await core.models.Facts.all())[random.randint(0, count - 1)]
 
     if not data:
         raise core.DatabaseConnectionError("Failed to query the database.")
 
-    return data.id
+    return data
 
 
 async def get_request_total() -> int:
