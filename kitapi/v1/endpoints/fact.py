@@ -160,21 +160,11 @@ async def bulk_create_a_fact(
 ) -> ManyFact:
     """Bulk creates new facts.
 
-        Accepts json data with:
-            - key: 'facts'
-            - value: A list of dictionaries.
-
-        These dictionaries should each have:
-            - key: 'fact'
-            - value: (str) The actual fact
-
-    ex:
-        `{
-            'facts': [
-                {'fact': 'Cats are awesome.'},
-                {'fact': 'Cats are cute.'}
-            ]
-        }`
+    ex: { 'facts': [
+            { 'fact': 'Cats are awesome.'},
+            { 'fact': 'Cats are cute.'}
+        ]
+    }
 
     * Requires the master api key.
     """

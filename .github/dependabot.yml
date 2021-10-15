@@ -6,6 +6,4 @@ updates:
       interval: daily
     assignees:
       - Jonxslays
-    reviewers:
-      - Jonxslays
     target-branch: dev
