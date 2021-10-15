@@ -1588,12 +1588,12 @@ fieldset:disabled a.btn {
 
 .btn-success {
   color: #ffffff;
-  background-color: #d2b4ee;
-  border-color: black; }
+  background-color: black;
+  border-color: #d2b4ee; }
   .btn-success:hover {
     color: #ffffff;
-    background-color: black;
-    border-color: #d2b4ee; }
+    background-color: #d2b4ee;
+    border-color: black; }
   .btn-success:focus, .btn-success.focus {
     box-shadow: 0 0 0 0.2rem rgba(92, 199, 42, 0.5); }
   .btn-success.disabled, .btn-success:disabled {
