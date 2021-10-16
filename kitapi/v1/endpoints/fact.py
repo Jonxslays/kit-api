@@ -2,7 +2,7 @@ import typing as t
 
 from fastapi import APIRouter, Header, HTTPException
 
-from kitapi.core.models import *
+from kitapi.core import models, schemas
 from kitapi.v1 import utils
 
 __all__: list[str] = ["FactRouter"]
@@ -18,18 +18,18 @@ FactRouter = APIRouter()
     responses={
         200: {
             "description": "A random fact.",
-            "model": Fact,
+            "model": schemas.Fact,
         },
     },
 )
 @utils.handle_db_conn_exc
 @utils.with_request_update
-async def get_a_random_fact() -> Fact:
+async def get_a_random_fact() -> schemas.Fact:
     """Gets a random fact, you feelin lucky?"""
     obj = await utils.get_random_fact()
     obj.uses += 1
     await obj.save()
-    return await Fact.from_tortoise_orm(obj)
+    return schemas.Fact.from_orm(obj)
 
 
 @FactRouter.get(
@@ -39,18 +39,18 @@ async def get_a_random_fact() -> Fact:
     responses={
         200: {
             "description": "The requested fact.",
-            "model": Fact,
+            "model": schemas.Fact,
         },
         404: {"description": "Not found."},
     },
 )
 @utils.with_request_update
-async def get_a_fact_by_id(id: int) -> Fact:
+async def get_a_fact_by_id(id: int) -> schemas.Fact:
     """Gets a fact by it's ID."""
-    obj = await Facts.get(id=id)
+    obj = await models.Fact.get(id=id)
     obj.uses += 1
     await obj.save()
-    return await Fact.from_tortoise_orm(obj)
+    return schemas.Fact.from_orm(obj)
 
 
 @FactRouter.patch(
@@ -60,7 +60,7 @@ async def get_a_fact_by_id(id: int) -> Fact:
     responses={
         200: {
             "description": "The updated fact.",
-            "model": Fact,
+            "model": schemas.Fact,
         },
         400: {"description": "Bad request."},
         404: {"description": "Not found."},
@@ -68,11 +68,11 @@ async def get_a_fact_by_id(id: int) -> Fact:
 )
 @utils.require_master_key
 @utils.with_request_update
-async def update_a_fact(id: int, fact: FactIn, x_api_key: t.Any = Header(None)) -> Fact:
+async def update_a_fact(id: int, fact: schemas.FactIn, x_api_key: t.Any = Header(None)) -> schemas.Fact:
     """Updates a fact by it's ID.
     * Requires the master api key.
     """
-    obj = await Facts.get(id=id)
+    obj = await models.Fact.get(id=id)
     f = fact.dict().get("fact")
 
     if not isinstance(f, str) or len(f) < 13:
@@ -87,7 +87,7 @@ async def update_a_fact(id: int, fact: FactIn, x_api_key: t.Any = Header(None)) 
 
     obj.fact = f
     await obj.save()
-    return await Fact.from_tortoise_orm(obj)
+    return schemas.Fact.from_orm(obj)
 
 
 @FactRouter.delete(
@@ -97,7 +97,7 @@ async def update_a_fact(id: int, fact: FactIn, x_api_key: t.Any = Header(None)) 
     responses={
         200: {
             "description": "The deleted fact.",
-            "model": Fact,
+            "model": schemas.Fact,
         },
         403: {"description": "Forbidden."},
         404: {"description": "Not found."},
@@ -105,14 +105,14 @@ async def update_a_fact(id: int, fact: FactIn, x_api_key: t.Any = Header(None)) 
 )
 @utils.require_master_key
 @utils.with_request_update
-async def delete_a_fact(id: int, x_api_key: t.Any = Header(None)) -> Fact:
+async def delete_a_fact(id: int, x_api_key: t.Any = Header(None)) -> schemas.Fact:
     """Deletes a fact by it's ID.
     * Requires the master api key.
     """
-    obj = removed = await Facts.get(id=id)
+    obj = removed = await models.Fact.get(id=id)
     await obj.delete()
     await obj.save()
-    return await Fact.from_tortoise_orm(removed)
+    return schemas.Fact.from_orm(removed)
 
 
 @FactRouter.post(
@@ -123,19 +123,19 @@ async def delete_a_fact(id: int, x_api_key: t.Any = Header(None)) -> Fact:
     responses={
         201: {
             "description": "The created fact.",
-            "model": Fact,
+            "model": schemas.Fact,
         },
         403: {"description": "Forbidden."},
     },
 )
 @utils.require_master_key
 @utils.with_request_update
-async def create_a_fact(fact: FactIn, x_api_key: t.Any = Header(None)) -> Fact:
+async def create_a_fact(fact: schemas.FactIn, x_api_key: t.Any = Header(None)) -> schemas.Fact:
     """Creates a new fact.
     * Requires the master api key.
     """
-    obj = await Facts.create(**fact.dict())
-    return await Fact.from_tortoise_orm(obj)
+    obj = await models.Fact.create(**fact.dict())
+    return schemas.Fact.from_orm(obj)
 
 
 @FactRouter.post(
@@ -146,7 +146,7 @@ async def create_a_fact(fact: FactIn, x_api_key: t.Any = Header(None)) -> Fact:
     responses={
         201: {
             "description": "The created facts.",
-            "model": ManyFact,
+            "model": schemas.BulkFact,
         },
         400: {"description": "Bad request."},
         403: {"description": "Forbidden."},
@@ -155,9 +155,9 @@ async def create_a_fact(fact: FactIn, x_api_key: t.Any = Header(None)) -> Fact:
 @utils.require_master_key
 @utils.with_request_update
 async def bulk_create_a_fact(
-    facts: ManyFactIn,
+    facts: schemas.BulkFactIn,
     x_api_key: t.Any = Header(None)
-) -> ManyFact:
+) -> schemas.BulkFact:
     """Bulk creates new facts.
 
     ex: { 'facts': [
@@ -169,13 +169,13 @@ async def bulk_create_a_fact(
     * Requires the master api key.
     """
 
-    results: list[Fact] = []
+    results: list[schemas.Fact] = []
 
     for fact in facts.facts:
-        obj = await Facts.create(**fact.dict())
-        results.append(await Fact.from_tortoise_orm(obj))
+        obj = await models.Fact.create(**fact.dict())
+        results.append(schemas.Fact.from_orm(obj))
 
-    return ManyFact(facts=results)
+    return schemas.BulkFact(facts=results)
 
 
 @FactRouter.get(
