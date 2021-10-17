@@ -5027,12 +5027,11 @@ a.text-dark:hover, a.text-dark:focus {
 /*****************
 Custom CSS
 *****************/
+/* Removed background highlight color
 ::-moz-selection {
-  background-color: #ffff00;
-  color: #000000; }
+  background-color: #006efd75; }
 ::selection {
-  background-color: #ffff00;
-  color: #000000; }
+  background-color: #006efd75; } */
 
 a:not(.heading-brand) {
   font-weight: 500; }

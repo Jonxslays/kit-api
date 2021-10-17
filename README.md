@@ -6,7 +6,7 @@ An API dedicated to kitty cats.
 
 Kit-API is a project I started when another cat fact API that I used for a while went down for a
 few days. Hopefully Kit-API can provide cat facts to someone else in their time of need. The API
-is completely free to use.
+is completely free to use, and open source.
 
 ## Public Endpoints
 
