@@ -19,10 +19,10 @@ services:
     container_name: app
     restart: always
     build: .
-    command: bash -c "uvicorn kitapi.main:app --host 0.0.0.0 --port 80"
+    command: bash -c "uvicorn kitapi.main:app --host 0.0.0.0 --port $HTTP_PORT"
     labels:
       - traefik.enable=true
-      - traefik.http.services.app.loadbalancer.server.port=80
+      - traefik.http.services.app.loadbalancer.server.port=$HTTP_PORT
       - traefik.http.routers.app-http.entrypoints=http
       - traefik.http.routers.app-http.rule=Host(`$DOMAIN`, `www.$DOMAIN`)
       - traefik.docker.network=public
@@ -32,10 +32,10 @@ services:
       - traefik.http.routers.app-https.tls.certresolver=le
       - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
       - traefik.http.middlewares.https-redirect.redirectscheme.permanent=true
-      - traefik.http.middlewares.ratelimit.ratelimit.average=200
-      - traefik.http.middlewares.ratelimit.ratelimit.burst=10
-      - traefik.http.middlewares.ratelimit.ratelimit.period=1m
-      - traefik.http.middlewares.ratelimit.ratelimit.sourcecriterion.ipstrategy.depth=2
+      - traefik.http.middlewares.ratelimit.ratelimit.average=$RATELIMIT_AVG
+      - traefik.http.middlewares.ratelimit.ratelimit.burst=$RATELIMIT_BURST
+      - traefik.http.middlewares.ratelimit.ratelimit.period=$RATELIMIT_PER
+      - traefik.http.middlewares.ratelimit.ratelimit.sourcecriterion.ipstrategy.depth=$IPSTRATEGY_DEPTH
       - traefik.http.routers.app-http.middlewares=https-redirect,ratelimit
       - traefik.http.routers.app-https.middlewares=ratelimit
     networks:

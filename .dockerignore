@@ -4,3 +4,7 @@
 *.pyc
 __pycache__
 LICENSE
+.scripts
+README.md
+.github
+.git

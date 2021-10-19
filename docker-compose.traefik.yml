@@ -5,17 +5,17 @@ services:
     image: traefik:v2.5
     restart: always
     ports:
-      - 80:80
-      - 443:443
+      - 80:$HTTP_PORT
+      - 443:$HTTPS_PORT
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - public-certificates:/certificates
     command:
       - --log
       - --accesslog
-      - --entrypoints.http.address=:80
-      - --entrypoints.https.address=:443
-      - --certificatesresolvers.le.acme.email=admin@kit-api.com
+      - --entrypoints.http.address=:$HTTP_PORT
+      - --entrypoints.https.address=:$HTTPS_PORT
+      - --certificatesresolvers.le.acme.email=$SSL_ADMIN_EMAIL
       - --certificatesresolvers.le.acme.storage=/certificates/acme.json
       - --certificatesresolvers.le.acme.tlschallenge=true
       - --providers.docker
