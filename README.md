@@ -60,10 +60,10 @@ use std::error::Error;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
     let url = "https://kit-api.com/v1/system/requests";
-    let res = reqwest::get(url).await?;
-    let body = res.text().await?;
 
-    println!("{}", body);
+    let response = reqwest::get(url).await?;
+    println!("{}", response.text().await?);
+
     Ok(())
 }
 ```
