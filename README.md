@@ -26,6 +26,7 @@ To get started just make a request to one of the endpoints!
 ```bash
 curl -X GET "https://kit-api.com/v1/fact"
 ```
+##### Response
 > {"id": 11, "fact": "Cats have 18 toes.", "uses": 30}
 
 ---
@@ -48,6 +49,7 @@ async def main() -> None:
 if __name__ == "__main__"
     asyncio.run(main())
 ```
+##### Response
 > {"id": 12,"fact": "Cat owners spend around 2 Billion USD per year on cat food.", "uses": 25}
 
 ---
@@ -67,6 +69,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 ```
+##### Response
 > 123
 
 ---
