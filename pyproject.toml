@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "kit-api"
 version = "0.3.0"
-description = "An api dedicated to kits."
+description = "An api dedicated to kitty cats."
 authors = ["Jonxslays"]
 license = "BSD-3-Clause"
 include = ["kitapi"]

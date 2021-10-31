@@ -12,7 +12,7 @@ __all__: list[str] = [
 
 __version__: str = "0.3.0"
 __author__: str = "Jonxslays"
-__description__: str = "An api dedicated to kits."
+__description__: str = "An api dedicated to kitty cats."
 __license__: str = "BSD-3-Clause"
 __maintainer__: str = "Jonxslays"
 __url__: str = "https://kit-api.com"
