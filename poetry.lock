@@ -278,7 +278,7 @@ python-versions = ">=3.7,<4.0"
 
 [[package]]
 name = "pyright"
-version = "0.0.10"
+version = "0.0.11"
 description = "Command line wrapper for pyright"
 category = "dev"
 optional = false
@@ -288,8 +288,8 @@ python-versions = ">=3"
 nodeenv = ">=1.6.0"
 
 [package.extras]
-all = ["wheel", "twine (>=3.4.1)"]
-dev = ["wheel", "twine (>=3.4.1)"]
+all = ["twine (>=3.4.1)"]
+dev = ["twine (>=3.4.1)"]
 
 [[package]]
 name = "python-dotenv"
@@ -420,7 +420,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10.0"
-content-hash = "9aca8d0aa455012a45e339477db3cb1d6786b79a7600fcaf5591965ef178cada"
+content-hash = "058f895e45b14b0b5fb96ea708ec212914420387bb68758e86142aa7e54b6ce9"
 
 [metadata.files]
 aiofiles = [
@@ -656,8 +656,8 @@ pypika-tortoise = [
     {file = "pypika_tortoise-0.1.1-py3-none-any.whl", hash = "sha256:860020094e01058ea80602c90d4a843d0a42cffefcf4f3cb1a7f2c18b880c638"},
 ]
 pyright = [
-    {file = "pyright-0.0.10-py3-none-any.whl", hash = "sha256:44d033c63e3afef59c4b43ef7c6e35c9c9abaa7c787cb4692f4ff620ca4a130b"},
-    {file = "pyright-0.0.10.tar.gz", hash = "sha256:c3c8303442ddd39003100dcc892542b1a7f38fcbb131360784a9b1ea6f8ddccf"},
+    {file = "pyright-0.0.11-py3-none-any.whl", hash = "sha256:3cc4f34e072bdae790a380fef28520f00982e116b5c298c51b948c7e7ac96d8d"},
+    {file = "pyright-0.0.11.tar.gz", hash = "sha256:65f35251498f2ca02e9be763bee7fcbb1f5d4d02ee4ab140e1e27dd6a95984f8"},
 ]
 python-dotenv = [
     {file = "python-dotenv-0.19.1.tar.gz", hash = "sha256:14f8185cc8d494662683e6914addcb7e95374771e707601dfc70166946b4c4b8"},
