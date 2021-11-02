@@ -20,7 +20,7 @@ aiofiles = "^0.7.0"
 black = "^21.10b0"
 isort = "^5.9.3"
 pyright = "^0.0.11"
-aiohttp = ">=3.7.4.post0"
+aiohttp = "^3.8"
 
 [tool.black]
 line-length = 99
