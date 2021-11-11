@@ -319,7 +319,7 @@ dev = ["twine (>=3.4.1)"]
 
 [[package]]
 name = "python-dotenv"
-version = "0.19.1"
+version = "0.19.2"
 description = "Read key-value pairs from a .env file and set them as environment variables"
 category = "main"
 optional = false
@@ -446,7 +446,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10.0"
-content-hash = "57add82b2f8038a12a19bf0ad3cfa0a2ee7a382fa27523b1ba9c0192ec427eb8"
+content-hash = "81f24260b24f72568eab3bc9993b830f261f8a0f4abc60870f94b8bc907139da"
 
 [metadata.files]
 aiofiles = [
@@ -799,8 +799,8 @@ pyright = [
     {file = "pyright-0.0.12.tar.gz", hash = "sha256:a80003bc10e6400ee235b77bf30f87cb442611e8bd6f496fe4afd4ee44cda580"},
 ]
 python-dotenv = [
-    {file = "python-dotenv-0.19.1.tar.gz", hash = "sha256:14f8185cc8d494662683e6914addcb7e95374771e707601dfc70166946b4c4b8"},
-    {file = "python_dotenv-0.19.1-py2.py3-none-any.whl", hash = "sha256:bbd3da593fc49c249397cbfbcc449cf36cb02e75afc8157fcc6a81df6fb7750a"},
+    {file = "python-dotenv-0.19.2.tar.gz", hash = "sha256:a5de49a31e953b45ff2d2fd434bbc2670e8db5273606c1e737cc6b93eff3655f"},
+    {file = "python_dotenv-0.19.2-py2.py3-none-any.whl", hash = "sha256:32b2bdc1873fd3a3c346da1c6db83d0053c3c62f28f1f38516070c4c8971b1d3"},
 ]
 pytz = [
     {file = "pytz-2021.3-py2.py3-none-any.whl", hash = "sha256:3672058bc3453457b622aab7a1c3bfd5ab0bdae451512f6cf25f64ed37f5b87c"},
