@@ -1,4 +1,5 @@
 import functools
+import hmac
 import os
 import random
 import typing as t
@@ -45,7 +46,7 @@ def require_master_key(func: t.Any) -> t.Callable[..., t.Any]:
 
     @functools.wraps(func)
     async def predicate(x_api_key: str, *args: t.Any, **kwargs: t.Any) -> t.Any:
-        if x_api_key != get_master_key():
+        if not hmac.compare_digest(x_api_key, get_master_key()):
             raise HTTPException(
                 status_code=403, detail={"error": "Forbidden", "message": "Invalid API key."}
             )
