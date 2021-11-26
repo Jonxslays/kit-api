@@ -19,7 +19,7 @@ aiofiles = "^0.7.0"
 [tool.poetry.dev-dependencies]
 black = "^21.11b1"
 isort = "^5.10.1"
-pyright = "^0.0.12"
+pyright = "^0.0.13"
 aiohttp = "^3.8"
 
 [tool.black]
