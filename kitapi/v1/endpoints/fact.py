@@ -68,7 +68,9 @@ async def get_a_fact_by_id(id: int) -> schemas.Fact:
 )
 @utils.require_master_key
 @utils.with_request_update
-async def update_a_fact(id: int, fact: schemas.FactIn, x_api_key: t.Any = Header(None)) -> schemas.Fact:
+async def update_a_fact(
+    id: int, fact: schemas.FactIn, x_api_key: t.Any = Header(None)
+) -> schemas.Fact:
     """Updates a fact by it's ID.
     * Requires the master api key.
     """
@@ -155,8 +157,7 @@ async def create_a_fact(fact: schemas.FactIn, x_api_key: t.Any = Header(None)) -
 @utils.require_master_key
 @utils.with_request_update
 async def bulk_create_a_fact(
-    facts: schemas.BulkFactIn,
-    x_api_key: t.Any = Header(None)
+    facts: schemas.BulkFactIn, x_api_key: t.Any = Header(None)
 ) -> schemas.BulkFact:
     """Bulk creates new facts.
 

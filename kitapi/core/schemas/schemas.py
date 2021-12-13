@@ -11,6 +11,7 @@ __all__: list[str] = [
 
 class System(BaseModel):
     """Represents the system."""
+
     version: int
     total_requests: int
 
@@ -20,6 +21,7 @@ class System(BaseModel):
 
 class Fact(BaseModel):
     """Represents a fact."""
+
     id: int
     fact: str
     uses: int
@@ -30,6 +32,7 @@ class Fact(BaseModel):
 
 class FactIn(BaseModel):
     """Represents a fact in."""
+
     fact: str
 
     class Config:
@@ -38,6 +41,7 @@ class FactIn(BaseModel):
 
 class BulkFact(BaseModel):
     """Represents bulk facts."""
+
     facts: list[Fact]
 
     class Config:
@@ -46,6 +50,7 @@ class BulkFact(BaseModel):
 
 class BulkFactIn(BaseModel):
     """Represents bulk fact in."""
+
     facts: list[FactIn]
 
     class Config:
