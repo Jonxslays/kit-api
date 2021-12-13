@@ -25,6 +25,9 @@ aiohttp = "^3.8"
 [tool.black]
 line-length = 99
 
+[tool.isort]
+profile = "black"
+
 [tool.pyright]
 include = ["kitapi"]
 typeCheckingMode = "strict"

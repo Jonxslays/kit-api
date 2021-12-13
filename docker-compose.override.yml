@@ -6,7 +6,7 @@ services:
 
   app:
     ports:
-      - 8000:80
+      - "8000:80"
     networks:
       - public
     depends_on:
