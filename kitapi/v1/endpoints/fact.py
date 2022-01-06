@@ -78,7 +78,8 @@ async def update_a_fact(
     f = fact.dict().get("fact")
 
     if not isinstance(f, str) or len(f) < 13:
-        # I have arbitrarily chosen 13 characters as the minumum length fact...
+        # I have arbitrarily chosen 13 characters as the minimum length
+        # fact...
         raise HTTPException(
             status_code=400,
             detail={
