@@ -21,7 +21,7 @@ black = "^21.12b0"
 isort = "^5.10.1"
 pyright = "^0.0.13"
 aiohttp = "^3.8"
-len8 = "^0.7.0"
+len8 = "^0.7.1"
 
 [tool.black]
 line-length = 99
