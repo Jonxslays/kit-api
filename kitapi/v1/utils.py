@@ -45,8 +45,8 @@ def require_master_key(func: t.Any) -> t.Callable[..., t.Any]:
     """Decorates an endpoint to require the v1 master key."""
 
     @functools.wraps(func)
-    async def predicate(x_api_key: str, *args: t.Any, **kwargs: t.Any) -> t.Any:
-        if not hmac.compare_digest(x_api_key, get_master_key()):
+    async def predicate(x_api_key: str | None, *args: t.Any, **kwargs: t.Any) -> t.Any:
+        if not x_api_key or not hmac.compare_digest(x_api_key, get_master_key()):
             raise HTTPException(
                 status_code=403, detail={"error": "Forbidden", "message": "Invalid API key."}
             )
