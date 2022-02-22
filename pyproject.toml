@@ -8,20 +8,20 @@ include = ["kitapi"]
 
 [tool.poetry.dependencies]
 python = "^3.10.0,<3.12"
-fastapi = "^0.70.1"
-uvicorn = "^0.16.0"
+fastapi = "^0.74.1"
+uvicorn = "^0.17.5"
 python-dotenv = "^0.19.2"
 asyncpg = "^0.25.0"
-tortoise-orm = "^0.18.0"
+tortoise-orm = "^0.18.1"
 uvloop = "^0.16.0"
 aiofiles = "^0.8.0"
 
 [tool.poetry.dev-dependencies]
-black = "^21.12b0"
+black = "^22.1"
 isort = "^5.10.1"
 pyright = "^0.0.13"
 aiohttp = "^3.8"
-len8 = "^0.7.0"
+len8 = "^0.7.2"
 
 [tool.black]
 line-length = 99
