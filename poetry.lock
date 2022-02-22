@@ -231,7 +231,7 @@ plugins = ["setuptools"]
 
 [[package]]
 name = "len8"
-version = "0.7.1"
+version = "0.7.2"
 description = "A utility for keeping line lengths within PEP 8 standards."
 category = "dev"
 optional = false
@@ -452,7 +452,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10.0,<3.12"
-content-hash = "320ac9deb8614e498d6c1f3b21f0f103a15804c0e41004bb9987ce1fdea5c3c5"
+content-hash = "6d43266f43f5abf78902934a8b234dc85598515264980454ae21c25757d63cfe"
 
 [metadata.files]
 aiofiles = [
@@ -717,8 +717,8 @@ isort = [
     {file = "isort-5.10.1.tar.gz", hash = "sha256:e8443a5e7a020e9d7f97f1d7d9cd17c88bcb3bc7e218bf9cf5095fe550be2951"},
 ]
 len8 = [
-    {file = "len8-0.7.1-py3-none-any.whl", hash = "sha256:c362e5b61a607efe7a48fe30b55a54f01ed75d44af8ddca33a785f12a07ebf8f"},
-    {file = "len8-0.7.1.tar.gz", hash = "sha256:6efdfc0f63c58816e7e3f72ede84c05ac476127c64ae96460d8a3f2d790c89bd"},
+    {file = "len8-0.7.2-py3-none-any.whl", hash = "sha256:93c7f5a4e01edcce646ebcd6a51937d9d9581e2d33cab74b6edb389eef58077f"},
+    {file = "len8-0.7.2.tar.gz", hash = "sha256:fa1b7abc06e0773aebf618cd7a7f3af8b7a7785a19c33759ca759fd270086d48"},
 ]
 multidict = [
     {file = "multidict-5.2.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:3822c5894c72e3b35aae9909bef66ec83e44522faf767c0ad39e0e2de11d3b55"},
