@@ -12,7 +12,7 @@ fastapi = "^0.76.0"
 uvicorn = "^0.17.6"
 python-dotenv = "^0.20.0"
 asyncpg = "^0.25.0"
-tortoise-orm = "^0.18.1"
+tortoise-orm = "^0.19.0"
 uvloop = "^0.16.0"
 aiofiles = "^0.8.0"
 
