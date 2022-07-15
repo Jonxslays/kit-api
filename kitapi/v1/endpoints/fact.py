@@ -157,7 +157,7 @@ async def create_a_fact(fact: schemas.FactIn, x_api_key: t.Any = Header(None)) -
 )
 @utils.require_master_key
 @utils.with_request_update
-async def bulk_create_a_fact(
+async def bulk_create_facts(
     facts: schemas.BulkFactIn, x_api_key: t.Any = Header(None)
 ) -> schemas.BulkFact:
     """Bulk creates new facts.
@@ -171,11 +171,11 @@ async def bulk_create_a_fact(
     * Requires the master api key.
     """
 
-    results: list[schemas.Fact] = []
-
-    for fact in facts.facts:
-        obj = await models.Fact.create(**fact.dict())
-        results.append(schemas.Fact.from_orm(obj))
+    results = [
+        schemas.Fact.from_orm(
+            await models.Fact.create(**fact.dict())
+        ) for fact in facts.facts
+    ]
 
     return schemas.BulkFact(facts=results)
 
