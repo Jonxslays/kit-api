@@ -282,8 +282,8 @@ optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-docs = ["Sphinx (>=4)", "furo (>=2021.7.5b38)", "proselint (>=0.10.2)", "sphinx-autodoc-typehints (>=1.12)"]
-test = ["appdirs (==1.4.4)", "pytest (>=6)", "pytest-cov (>=2.7)", "pytest-mock (>=3.6)"]
+test = ["pytest-mock (>=3.6)", "pytest-cov (>=2.7)", "pytest (>=6)", "appdirs (==1.4.4)"]
+docs = ["sphinx-autodoc-typehints (>=1.12)", "proselint (>=0.10.2)", "furo (>=2021.7.5b38)", "Sphinx (>=4)"]
 
 [[package]]
 name = "pydantic"
@@ -310,7 +310,7 @@ python-versions = ">=3.7,<4.0"
 
 [[package]]
 name = "pyright"
-version = "1.1.244"
+version = "1.1.264"
 description = "Command line wrapper for pyright"
 category = "dev"
 optional = false
@@ -453,7 +453,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10.0,<3.12"
-content-hash = "bebe055840bf7b2293008e2d0036380faac98e2df769184c6329cc97fe9e2e8c"
+content-hash = "f63a519337d57b3fd0bea763a609348f917b2c707f1e805c282f71541446039f"
 
 [metadata.files]
 aiofiles = [
@@ -840,8 +840,8 @@ pypika-tortoise = [
     {file = "pypika_tortoise-0.1.4-py3-none-any.whl", hash = "sha256:bdc7e63c88791679a8b3f0b008582b6d3fcd21830650d274db35a7012e7b8bcd"},
 ]
 pyright = [
-    {file = "pyright-1.1.244-py3-none-any.whl", hash = "sha256:b12c186320b932d15b6e6f85b08077ca688c6ae572d8a6fef58ba3c0f9eca1d4"},
-    {file = "pyright-1.1.244.tar.gz", hash = "sha256:24aca93b33a72345cffcfcecd303b77bf53f08a54235f9949f51df7d4287fd57"},
+    {file = "pyright-1.1.264-py3-none-any.whl", hash = "sha256:845c0bfa77695e81b19980fe4777a771016cbc6a18b821aa492a516a2df2fae1"},
+    {file = "pyright-1.1.264.tar.gz", hash = "sha256:93ffceb70c0f817d89122bf133583a41842c466d941aa4e92a4bb6a06bd3cd9a"},
 ]
 python-dotenv = [
     {file = "python-dotenv-0.20.0.tar.gz", hash = "sha256:b7e3b04a59693c42c36f9ab1cc2acc46fa5df8c78e178fc33a8d4cd05c8d498f"},
