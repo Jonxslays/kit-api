@@ -9,7 +9,7 @@ include = ["kitapi"]
 [tool.poetry.dependencies]
 python = "^3.10.0,<3.12"
 fastapi = "^0.76.0"
-uvicorn = "^0.17.6"
+uvicorn = "^0.18.3"
 python-dotenv = "^0.20.0"
 asyncpg = "^0.25.0"
 tortoise-orm = "^0.19.0"
